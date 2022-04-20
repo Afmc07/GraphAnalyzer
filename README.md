@@ -24,8 +24,8 @@ Select csv or txt folder and add corresponding file.
 - The amount of lines is determined by the number of edges in the graph.
 
 ### TXT Example
-3
-1 2 2
-1 3 4
+3<br>
+1 2 2<br>
+1 3 4<br>
 
 - This is the txt representation of the graph found in the CSV Example section.
