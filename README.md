@@ -11,9 +11,9 @@ Select csv or txt folder and add corresponding file.
 - The slot corresponding to an adjacent vector must contain the character '1' to represent the edge and the weight of said edge. The values must be separated by '|'. EX. 1|4 (edge exists with a weight of 4)
 
 ### CSV Example
-,'1|2','1|4'
-'1|2',,
-'1|4,,
+,'1|2','1|4'<br>
+'1|2',, <br>
+'1|4,, <br>
 - In this Graph our first vertex (row 1) is connected to vertex 2 (row 2) and vertex 3 (row 3). Meanwhile vertex 2 and vertex 3 are connected only to vertex 1.
 - The edge connecting vertex 1 and 2 has a weight of 2 and the edge between vertex 1 and 3 has a weight of 4.
 - Spaces where there is no edge are left blank.
