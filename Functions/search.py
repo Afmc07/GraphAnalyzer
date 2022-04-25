@@ -39,16 +39,18 @@ def BFS(graph:model, idx:int):
     __treePrinter(idx, distance_map, graph)
 
 def DFS(graph:model, idx:int, process_select:str):
-        if process_select == 'R':
-            connection_map = {}
-            __DFS_Recursive(graph, idx, connection_map)
-            print("Showing Depth Tree")
-            vs.DFSR(connection_map)
-        elif process_select == 'S':
-            __DFS_Stack(graph, idx)       
+    connection_map = {}
+    if process_select == 'R':
+        __DFS_Recursive(graph, idx, connection_map)
+        print("Showing Depth Tree") 
+        vs.DFSR(connection_map)
+    elif process_select == 'S':
+        __DFS_Stack(graph, idx, connection_map)
+        print("Showing Depth Tree")  
+        vs.DFSR(connection_map)    
 
 def __DFS_Recursive(graph:model, idx:int, connections:dict):
-    graph.visited[idx] = True
+    graph.setVisited(idx)
 
     adj_idxs = [i for i, x in enumerate(graph.edges[idx]) if x == '1']
     connections[idx] = []
@@ -58,8 +60,32 @@ def __DFS_Recursive(graph:model, idx:int, connections:dict):
             connections[idx].append(item)
             __DFS_Recursive(graph, item, connections)
 
-def __DFS_Stack(graph, idx):
-    print("Stack")            
+def __DFS_Stack(graph:model, idx:int, connections:dict):
+    stack = [idx]
+
+    while stack:
+        current_idx = stack.pop()
+        if not graph.visited[current_idx]:
+            connections[current_idx] = []
+            graph.setVisited(current_idx)
+            vert_idxs = [i for i, x in enumerate(graph.edges[current_idx]) if x == '1']
+            vert_idxs.sort(reverse=True)
+            for index in vert_idxs:
+                stack.append(index)
+                connections_mapUpdater(index, current_idx, connections, graph)
+
+
+def connections_mapUpdater(adj_index:int, cur_index:int, connections:dict, graph:model):
+    if not graph.visited[adj_index]:
+        keys = connections.keys()
+        for key in keys:
+            if key == cur_index:
+                continue
+            elif adj_index in connections[key]:
+                connections[key].remove(adj_index)
+                break
+        connections[cur_index].append(adj_index)    
+
 
 
 def __distancePrinter(start:int, dists:dict):

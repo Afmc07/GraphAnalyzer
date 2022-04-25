@@ -25,4 +25,13 @@ class visualizers:
             for item in connections[key]:
                 visual.addEdge(key+1, item+1)
 
-        visual.visualize()               
+        visual.visualize()
+
+    def DFSS(connections:dict):
+        visual = GraphVisualization()
+        keys = connections.keys()
+        visited = []  
+
+        while len(connections)>0:
+            for key in keys:
+                print(key)

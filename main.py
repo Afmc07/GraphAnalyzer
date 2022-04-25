@@ -21,7 +21,7 @@ def Idx_Start_pick(graph:model, test:str):
 
 def Dfs_process_Select():
     while True:
-        process_select = input("Select your DFS process Recursive[R] Stack[S]: ")
+        process_select = input("Select your DFS process [R]Recursive, [S]Stack: ")
         if process_select == 'R' or process_select == 'S':
             break
         else:

@@ -36,8 +36,6 @@ class model():
         self.weights[idx1][idx2] = weight
         self.weights[idx2][idx1] = weight
 
-
-
     def getWeights(self):
         return self.weights
         
