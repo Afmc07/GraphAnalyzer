@@ -17,7 +17,7 @@ class GraphVisualization:
         plt.show()
 
 class visualizers:
-    def DFSR(connections:dict):
+    def MapVisualizer(connections:dict):
         visual = GraphVisualization()
         keys = connections.keys()
 
@@ -26,12 +26,3 @@ class visualizers:
                 visual.addEdge(key+1, item+1)
 
         visual.visualize()
-
-    def DFSS(connections:dict):
-        visual = GraphVisualization()
-        keys = connections.keys()
-        visited = []  
-
-        while len(connections)>0:
-            for key in keys:
-                print(key)

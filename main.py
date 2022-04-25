@@ -1,8 +1,9 @@
+from asyncio.windows_events import NULL
 from Classes.model import model
 from Functions.hamilton import Dirac, Ore, Bondy
 from Functions.euler import euler
 from Functions.search import BFS, DFS
-from controller import Open, Affirm, Setup
+from controller import Open, Affirm, Setup, RepeatSetup
 import os
 
 def clearConsole():
@@ -56,20 +57,16 @@ def test(graph:model, testFileName:str, type:str):
             DFS(graph, startIDX-1, process_select)    
 
 def TestHandler(fileType:str, name:int, testType:str):
+    filename = f'./tests/{fileType}/{name}'
+    graph = model([])
     if fileType == 'csv':
-         filename = f'./tests/{fileType}/{name}'
-         graph = model([])
          Open.CSV(filename, graph)
          graph.setupWeightsCSV()
          graph.setVisitedArray()
-         #clearConsole()
          test(graph, name, testType)
-    else:
-        filename = f'./tests/{fileType}/{name}'
-        graph = model([])
+    else:  
         Open.TXT(filename, graph)
         graph.setVisitedArray()
-        #clearConsole()
         test(graph, name, testType)
 
    
@@ -78,9 +75,11 @@ print("|                                    |")
 print("| Welcome to Graph Datatype Tester!", end="  |\n")
 print("|                                    |")
 print(" ------------------------------------ \n")
-while True:
 
-    params = Setup()
+params = NULL
+while True:
+    if not params:
+        params = Setup()
     if params.fileName in params.fileList:
         TestHandler(params.fileType, params.fileName, params.testId)
     else:
@@ -94,6 +93,8 @@ while True:
         break
     else:
         clearConsole()
+        params = RepeatSetup(params)
+
 
              
 

@@ -43,11 +43,10 @@ def DFS(graph:model, idx:int, process_select:str):
     if process_select == 'R':
         __DFS_Recursive(graph, idx, connection_map)
         print("Showing Depth Tree") 
-        vs.DFSR(connection_map)
     elif process_select == 'S':
         __DFS_Stack(graph, idx, connection_map)
         print("Showing Depth Tree")  
-        vs.DFSR(connection_map)    
+    vs.MapVisualizer(connection_map)    
 
 def __DFS_Recursive(graph:model, idx:int, connections:dict):
     graph.setVisited(idx)
@@ -132,25 +131,28 @@ def __roadPrinter(start:int, graph:model, dists:dict):
 
 def __treePrinter(idx:int, dists:dict, graph:model):
     print("------------------------------\n")
-    print("Tree Adjacency:\n")
+    print("Tree:")
     graph.resetVisits()
     distDict = copy.deepcopy(dists)
-    PrintAdapter(distDict[1], f'{idx+1}:', ' ', ', ')
+    connection_map = {}
+    connection_map[idx] = distDict[1]
     graph.setVisited(idx)
-    
-    last_dist = 1
     keys = distDict.keys()
 
-    while last_dist in keys:
-        for index in distDict[last_dist]:
-            graph.setVisited(index)
-            connections = [i for i, x in enumerate(graph.edges[index]) if x == '1']
-            kids = []
-            for item in connections:
-                if not graph.visited[item] and item not in distDict[last_dist]:
-                    kids.append(item)
-            PrintAdapter(kids, f'{index+1}:', " ", ", ")        
-        last_dist += 1
+    for key in keys:
+        for parent_index in distDict[key]:
+            graph.setVisited(parent_index)
+            connection_map[parent_index] = []
+            vert_idxs = [i for i, x in enumerate(graph.edges[parent_index]) if x == '1']
+            for adj_idx in vert_idxs:
+                if key == 1:
+                    if adj_idx != idx and adj_idx not in distDict[key] and not graph.visited[adj_idx]:
+                        connection_map[parent_index].append(adj_idx)
+                else:
+                    if adj_idx not in distDict[key-1] and adj_idx not in distDict[key] and not graph.visited[adj_idx]:
+                        connection_map[parent_index].append(adj_idx)       
+
+    vs.MapVisualizer(connection_map)
     print("\n------------------------------\n")              
 
 def PrintAdapter(array:list, format:str, end, sep):
