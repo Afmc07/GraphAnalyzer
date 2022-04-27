@@ -89,14 +89,8 @@ while True:
     resp = input("Do you wish to continue? Y/N\n")
     if resp == 'N':
         clearConsole()
-        print('\nGoodbye!\n')
+        print('\nGoodbye!')
         break
     else:
         clearConsole()
         params = RepeatSetup(params)
-
-
-             
-
-
-            

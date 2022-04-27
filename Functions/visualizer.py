@@ -1,5 +1,9 @@
+import pydot
 import networkx as nx
 import matplotlib.pyplot as plt
+from networkx.drawing.nx_pydot import graphviz_layout
+import os
+os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
 
 class GraphVisualization:
    
@@ -10,14 +14,14 @@ class GraphVisualization:
         temp = [a, b]
         self.visual.append(temp)
 
-    def visualize(self):
-        G = nx.Graph()
+    def visualize(self, type:str):
+        G = nx.DiGraph()
         G.add_edges_from(self.visual)
-        nx.draw_networkx(G)
+        nx.draw_networkx(G, graphviz_layout(G, prog=type))
         plt.show()
 
 class visualizers:
-    def MapVisualizer(connections:dict):
+    def MapVisualizer(connections:dict, type:str):
         visual = GraphVisualization()
         keys = connections.keys()
 
@@ -25,4 +29,4 @@ class visualizers:
             for item in connections[key]:
                 visual.addEdge(key+1, item+1)
 
-        visual.visualize()
+        visual.visualize(type)

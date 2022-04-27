@@ -45,15 +45,9 @@ def __fileSelectProcess(file_count:int, file_list:list):
         message += f'[{idx}]{file_list[idx]}, '
     message += f'[{file_count}]Test All: '
 
-    while True:
-        file_choice = int(input(message))
-        file = file_list[file_choice] if file_choice < file_count else "x"
-
-        if file == 'x':
-            print("Invalid choice please try again.")
-        else:
-            break  
-
+    file_choice = int(input(message))
+    file = file_list[file_choice] if file_choice < file_count else "x"
+    
     return file
 
 

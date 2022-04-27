@@ -42,11 +42,10 @@ def DFS(graph:model, idx:int, process_select:str):
     connection_map = {}
     if process_select == 'R':
         __DFS_Recursive(graph, idx, connection_map)
-        print("Showing Depth Tree") 
     elif process_select == 'S':
         __DFS_Stack(graph, idx, connection_map)
-        print("Showing Depth Tree")  
-    vs.MapVisualizer(connection_map)    
+    print("Showing Depth Tree")  
+    vs.MapVisualizer(connection_map, "dot")    
 
 def __DFS_Recursive(graph:model, idx:int, connections:dict):
     graph.setVisited(idx)
@@ -152,7 +151,7 @@ def __treePrinter(idx:int, dists:dict, graph:model):
                     if adj_idx not in distDict[key-1] and adj_idx not in distDict[key] and not graph.visited[adj_idx]:
                         connection_map[parent_index].append(adj_idx)       
 
-    vs.MapVisualizer(connection_map)
+    vs.MapVisualizer(connection_map, "neato")
     print("\n------------------------------\n")              
 
 def PrintAdapter(array:list, format:str, end, sep):
@@ -160,20 +159,3 @@ def PrintAdapter(array:list, format:str, end, sep):
     print(format, end=end)
     print(*printable, sep=sep) 
     
-
-
-
-    
-
-
-
-
-    
-            
-
-    
-
-
-
-
-
