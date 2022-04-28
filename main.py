@@ -13,10 +13,11 @@ def clearConsole():
     os.system(command)
 
 def Idx_Start_pick(graph:model, test:str):
+    vert_count = graph.getverts()
     while True:
             startIDX = int(input(f'Provide starting index for {test}: '))
-            if startIDX > len(graph.edges) or startIDX < 1:
-                print(f'Invalid index, max index = {len(graph.edges)} | min index = 1')
+            if startIDX > vert_count or startIDX < 1:
+                print(f'Invalid index, max index = {vert_count} | min index = 1')
             else:
                 return startIDX
 

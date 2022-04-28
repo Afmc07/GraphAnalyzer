@@ -11,7 +11,7 @@ def BFS(graph:model, idx:int):
 
     while queue:
         current_vert = queue.pop(0)
-        vert_idxs = [i for i, x in enumerate(graph.edges[current_vert]) if x == '1']
+        vert_idxs = graph.getAdjacentVerts(current_vert)
 
         for i in vert_idxs:
             if not graph.visited[i]:
@@ -50,7 +50,7 @@ def DFS(graph:model, idx:int, process_select:str):
 def __DFS_Recursive(graph:model, idx:int, connections:dict):
     graph.setVisited(idx)
 
-    adj_idxs = [i for i, x in enumerate(graph.edges[idx]) if x == '1']
+    adj_idxs = graph.getAdjacentVerts(idx)
     connections[idx] = []
 
     for item in adj_idxs:
@@ -66,7 +66,7 @@ def __DFS_Stack(graph:model, idx:int, connections:dict):
         if not graph.visited[current_idx]:
             connections[current_idx] = []
             graph.setVisited(current_idx)
-            vert_idxs = [i for i, x in enumerate(graph.edges[current_idx]) if x == '1']
+            vert_idxs = graph.getAdjacentVerts(current_idx)
             vert_idxs.sort(reverse=True)
             for index in vert_idxs:
                 stack.append(index)
@@ -82,9 +82,7 @@ def connections_mapUpdater(adj_index:int, cur_index:int, connections:dict, graph
             elif adj_index in connections[key]:
                 connections[key].remove(adj_index)
                 break
-        connections[cur_index].append(adj_index)    
-
-
+        connections[cur_index].append(adj_index)   
 
 def __distancePrinter(start:int, dists:dict):
     print("------------------------------\n")
@@ -101,7 +99,7 @@ def __distancePrinter(start:int, dists:dict):
 def __roadPrinter(start:int, graph:model, dists:dict):
     print("------------------------------\n")
     print("Roads:\n")
-    for dest in range(0, len(graph.edges)):
+    for dest in range(0, graph.getverts()):
         distDict = copy.deepcopy(dists)
         if dest == start:
             continue
@@ -142,7 +140,7 @@ def __treePrinter(idx:int, dists:dict, graph:model):
         for parent_index in distDict[key]:
             graph.setVisited(parent_index)
             connection_map[parent_index] = []
-            vert_idxs = [i for i, x in enumerate(graph.edges[parent_index]) if x == '1']
+            vert_idxs = graph.getAdjacentVerts(parent_index)
             for adj_idx in vert_idxs:
                 if key == 1:
                     if adj_idx != idx and adj_idx not in distDict[key] and not graph.visited[adj_idx]:

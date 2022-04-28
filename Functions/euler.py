@@ -71,7 +71,7 @@ def __dfs_access_count(model:model, startIdx:int):
     count = 1
     model.visited[startIdx] = True
 
-    for itemIdx in range(0, len(model.edges[startIdx])):
+    for itemIdx in range(0, model.getverts()):
         if model.edges[startIdx][itemIdx] == '1'  and not model.visited[itemIdx]:
             count += __dfs_access_count(model, itemIdx)
     return count            

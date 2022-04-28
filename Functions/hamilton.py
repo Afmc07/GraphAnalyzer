@@ -15,15 +15,15 @@ def Dirac(model:model):
         return False
 
 def Ore(model:model):
-    n = model.getverts()
+    vert_count = model.getverts()
     degs = model.getdeg()
 
     for i in  range(0, len(degs)-1):
         adjI = model.getLine(i)
-        for j in range(i+1, len(degs)):
+        for j in range(i+1, vert_count):
             if adjI[j]!='1':
                 cmp = degs[i] + degs[j]
-                if n > cmp:
+                if vert_count > cmp:
                     return False
             else:
                 continue        

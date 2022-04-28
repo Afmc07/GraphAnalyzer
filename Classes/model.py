@@ -79,3 +79,5 @@ class model():
         for idx in range(0, len(self.visited)):
             self.visited[idx] = False    
 
+    def getAdjacentVerts(self, parentIdx:int) -> list:
+        return [i for i, x in enumerate(self.edges[parentIdx]) if x == '1']        
