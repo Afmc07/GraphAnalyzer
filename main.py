@@ -1,5 +1,6 @@
 from asyncio.windows_events import NULL
 from Classes.model import model
+from Functions.dijkstra import dijkstra
 from Functions.hamilton import Dirac, Ore, Bondy
 from Functions.euler import euler
 from Functions.search import BFS, DFS
@@ -19,7 +20,7 @@ def Idx_Start_pick(graph:model, test:str):
             if startIDX > vert_count or startIDX < 1:
                 print(f'Invalid index, max index = {vert_count} | min index = 1')
             else:
-                return startIDX
+                return startIDX-1
 
 def Dfs_process_Select():
     while True:
@@ -50,12 +51,16 @@ def test(graph:model, testFileName:str, type:str):
         case 'B':
             startIDX = Idx_Start_pick(graph, "BFS")
             print("\nBFS test Results "+str(testFileName))
-            BFS(graph, startIDX-1)
+            BFS(graph, startIDX)
         case 'D':
             startIDX = Idx_Start_pick(graph,"DFS")
             process_select = Dfs_process_Select()
             print("\nDFS test Results "+str(testFileName))
-            DFS(graph, startIDX-1, process_select)    
+            DFS(graph, startIDX, process_select)
+        case 'K':
+            startIDX = Idx_Start_pick(graph,"Dijkstra")
+            print("\nDijkstra test Results "+str(testFileName))
+            dijkstra(graph, startIDX)        
 
 def TestHandler(fileType:str, name:int, testType:str):
     filename = f'./tests/{fileType}/{name}'

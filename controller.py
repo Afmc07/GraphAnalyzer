@@ -14,7 +14,7 @@ def Setup():
 
     file = __fileSelectProcess(file_count, dir_files)
 
-    test_type = input("Provide Test type [H]Hamilton, [E]Euler, [B]BFS, [D]DFS: ")
+    test_type = input("Provide Test type [H]Hamilton, [E]Euler, [B]BFS, [D]DFS, [K]Dijkstra: ")
 
     return params(file_type, file, test_type, dir_files)
 
@@ -34,7 +34,7 @@ def RepeatSetup(past_params:params):
 
     newparams.fileName = __fileSelectProcess(len(newparams.fileList), newparams.fileList)
 
-    newparams.testId = input("Provide Test type [H]Hamilton, [E]Euler, [B]BFS, [D]DFS: ")
+    newparams.testId = input("Provide Test type [H]Hamilton, [E]Euler, [B]BFS, [D]DFS, [K]Dijkstra: ")
 
     return newparams
 

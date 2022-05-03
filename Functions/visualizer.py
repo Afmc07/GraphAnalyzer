@@ -15,9 +15,15 @@ class GraphVisualization:
         self.visual.append(temp)
 
     def visualize(self, type:str):
-        G = nx.DiGraph()
+        #G = nx.DiGraph()
+        ans = input("Is Graphviz working? Y/N ")
+        G = nx.Graph() if ans == "N" else nx.DiGraph()
         G.add_edges_from(self.visual)
-        nx.draw_networkx(G, graphviz_layout(G, prog=type))
+
+        if ans == 'Y':
+            nx.draw_networkx(G, graphviz_layout(G, prog=type))
+        else:    
+            nx.draw_networkx(G)
         plt.show()
 
 class visualizers:
