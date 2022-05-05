@@ -59,14 +59,19 @@ class Open():
                         graph.edges.append(row)
 
     def TXT(filename, graph:model):
+        dirgraph = input("Is the graph directed? Y/N: ")
         with open(filename,  'r') as file:
             num = int(file.readline())
             graph.txtSetup(num)
             graph.setupWeightsTXT()
             for line in file:
                 command = list(map(int, line.split(' ')));
-                graph.chngedg(command[0]-1, command[1]-1, '1')
-                graph.setWeight(command[0]-1, command[1]-1, command[2])
+                if dirgraph == 'N':
+                    graph.chngedg(command[0]-1, command[1]-1, '1')
+                    graph.setWeight(command[0]-1, command[1]-1, command[2])
+                else:
+                    graph.chngDirEdg(command[0]-1, command[1]-1, '1')
+                    graph.setDirWeight(command[0]-1, command[1]-1, command[2])    
                 
 
 class Affirm():
