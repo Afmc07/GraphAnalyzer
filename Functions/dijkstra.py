@@ -23,7 +23,8 @@ def dijkstra(graph:model, sourceIdx:int):
             if int(graph.weights[x][yIdx]) > 0 and not graph.visited[yIdx] and distances[yIdx] > distances[x]+graph.weights[x][yIdx]:
                 distances[yIdx] = distances[x]+graph.weights[x][yIdx]
                 mapInsert(road_map, x, yIdx)
-    alph = input("are the vertex labels letters? Y/N: ")
+                
+    alph = True if input("are the vertex labels letters? Y/N: ") == 'Y' else False
     __printResult(distances, sourceIdx, alph)
     vs.WeightedMapVisualizer(road_map, "dot", graph.weights, alph)            
 
