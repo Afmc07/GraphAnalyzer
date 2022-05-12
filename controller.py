@@ -14,7 +14,7 @@ def Setup():
 
     file = __fileSelectProcess(file_count, dir_files)
 
-    test_type = input("Provide Test type [H]Hamilton, [E]Euler, [B]BFS, [D]DFS: ")
+    test_type = input("Provide Test type [H]Hamilton, [E]Euler, [B]BFS, [D]DFS, [K]Dijkstra: ")
 
     return params(file_type, file, test_type, dir_files)
 
@@ -34,7 +34,7 @@ def RepeatSetup(past_params:params):
 
     newparams.fileName = __fileSelectProcess(len(newparams.fileList), newparams.fileList)
 
-    newparams.testId = input("Provide Test type [H]Hamilton, [E]Euler, [B]BFS, [D]DFS: ")
+    newparams.testId = input("Provide Test type [H]Hamilton, [E]Euler, [B]BFS, [D]DFS, [K]Dijkstra: ")
 
     return newparams
 
@@ -59,14 +59,19 @@ class Open():
                         graph.edges.append(row)
 
     def TXT(filename, graph:model):
+        dirgraph = input("Is the graph directed? Y/N: ")
         with open(filename,  'r') as file:
             num = int(file.readline())
             graph.txtSetup(num)
             graph.setupWeightsTXT()
             for line in file:
                 command = list(map(int, line.split(' ')));
-                graph.chngedg(command[0]-1, command[1]-1, '1')
-                graph.setWeight(command[0]-1, command[1]-1, command[2])
+                if dirgraph == 'N':
+                    graph.chngedg(command[0]-1, command[1]-1, '1')
+                    graph.setWeight(command[0]-1, command[1]-1, command[2])
+                else:
+                    graph.chngDirEdg(command[0]-1, command[1]-1, '1')
+                    graph.setDirWeight(command[0]-1, command[1]-1, command[2])    
                 
 
 class Affirm():

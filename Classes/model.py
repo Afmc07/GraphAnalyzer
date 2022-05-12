@@ -36,6 +36,9 @@ class model():
         self.weights[idx1][idx2] = weight
         self.weights[idx2][idx1] = weight
 
+    def setDirWeight(self, idx1:int, idx2:int, weight:int):
+        self.weights[idx1][idx2] = weight
+
     def getWeights(self):
         return self.weights
         
@@ -58,6 +61,9 @@ class model():
     def chngedg(self, line:int, edg:int, val:str):
         self.edges[line][edg] = val
         self.edges[edg][line] = val
+
+    def chngDirEdg(self, line:int, edg:int, val:str):
+        self.edges[line][edg] = val
 
     def getedg(self):
         cnt = 0;
