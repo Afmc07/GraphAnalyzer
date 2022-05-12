@@ -2,7 +2,7 @@
 Library dedicated to analyzing Graph data structures. Able to identify if they are Eulerean and/or Hamiltonian. Also performs Depth and Breadth searches.
 - Currently receives csv and txt files as input.
 - More features and functions to come
-- -Early Support for Directed Graphs
+- Early Support for Directed Graphs
 
 ## input examples
 Select csv or txt folder and add corresponding file.
