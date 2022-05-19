@@ -149,7 +149,7 @@ def __treePrinter(idx:int, dists:dict, graph:model):
                     if adj_idx not in distDict[key-1] and adj_idx not in distDict[key] and not graph.visited[adj_idx]:
                         connection_map[parent_index].append(adj_idx)       
 
-    vs.MapVisualizer(connection_map, "neato")
+    vs.MapVisualizer(connection_map, "dot")
     print("\n------------------------------\n")              
 
 def PrintAdapter(array:list, format:str, end, sep):
