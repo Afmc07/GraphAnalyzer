@@ -10,7 +10,7 @@ def dijkstra(graph:model, sourceIdx:int):
     distances[sourceIdx] = 0
     road_map = {}
 
-    for cout in range(vertex_amount):
+    for _ in range(vertex_amount):
         x = __minDistance(distances, graph)
 
         if x == -1:

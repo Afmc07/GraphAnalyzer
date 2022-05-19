@@ -14,7 +14,7 @@ def Setup():
 
     file = __fileSelectProcess(file_count, dir_files)
 
-    test_type = input("Provide Test type [H]Hamilton, [E]Euler, [B]BFS, [D]DFS, [K]Dijkstra: ")
+    test_type = input("Provide Test type [H]Hamilton, [E]Euler, [B]BFS, [D]DFS, [K]Dijkstra, [F]Bellman Ford: ")
 
     return params(file_type, file, test_type, dir_files)
 

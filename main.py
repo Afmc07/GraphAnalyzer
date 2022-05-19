@@ -4,6 +4,7 @@ from Functions.dijkstra import dijkstra
 from Functions.hamilton import Dirac, Ore, Bondy
 from Functions.euler import euler
 from Functions.search import BFS, DFS
+from Functions.bellmanFord import bellmanFord
 from controller import Open, Affirm, Setup, RepeatSetup
 import os
 
@@ -60,7 +61,11 @@ def test(graph:model, testFileName:str, type:str):
         case 'K':
             startIDX = Idx_Start_pick(graph,"Dijkstra")
             print("\nDijkstra test Results "+str(testFileName))
-            dijkstra(graph, startIDX)        
+            dijkstra(graph, startIDX)
+        case 'F':
+            startIDX = Idx_Start_pick(graph,"Bellman Ford")
+            print("\nBellman Ford test Results "+str(testFileName))
+            bellmanFord(graph, startIDX)              
 
 def TestHandler(fileType:str, name:int, testType:str):
     filename = f'./tests/{fileType}/{name}'
