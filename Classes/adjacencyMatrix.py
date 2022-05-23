@@ -1,7 +1,7 @@
 from array import array
 from collections import Counter
 
-class model:
+class AdjacencyMatrix:
     def __init__(self, edges):
         self.edges : array(array(str)) = edges
         self.weights = []

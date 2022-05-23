@@ -1,30 +1,38 @@
 import sys
-from Classes.model import model
+from this import d
+from Classes.adjacencyMatrix import AdjacencyMatrix
+from Classes.adjacencyList import AdjecencyList
 
 alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 
-def bellmanFord(graph:model, sourceIdx:int):
-    vertex_amount = graph.getverts()
+def bellmanFord(matrix:AdjacencyMatrix, sourceIdx:int):
+    adjList = AdjecencyList(matrix.getverts())
+    adjList.matrixAdapter(matrix)
+
+    vertex_amount = adjList.getVerts()
     distances = [sys.maxsize] * vertex_amount
     distances[sourceIdx] = 0
+
+    neg_loop = False
 
     road_map = {} 
 
     for _ in range(vertex_amount-1):
+        for start, dest, weight in adjList.graph:
+            if distances[start] != sys.maxsize and distances[start] + weight < distances[dest]:
+                distances[dest] = distances[start] + weight
+                mapInsert(road_map, start, dest)
 
-        for vert in range(vertex_amount):
-            adjVerts = graph.getAdjacentVerts(vert)
-            road_map[vert] = []
-            for adj in adjVerts:
-                if distances[vert] != sys.maxsize and distances[vert] + graph.weights[vert][adj] < distances[adj]:
-                    distances[adj] = distances[vert] + graph.weights[vert][adj]
-                    mapInsert(road_map, vert, adj)
-    for adj in adjVerts:
-                if distances[vert] != sys.maxsize and distances[vert] + graph.weights[vert][adj] < distances[adj]:
-                    print("Negative Cycle?")
+    for start, dest, weight in adjList.graph:
+        if distances[start] != sys.maxsize and distances[start] + weight < distances[dest]:
+            neg_loop = True
+            break
 
-    print(distances)
-    print(road_map)
+    if not neg_loop:
+        print(distances)
+        print(road_map)
+    else:
+        print("This graph contains a negative weight cycle")    
     
                     
 

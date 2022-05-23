@@ -1,5 +1,5 @@
 import copy
-from Classes.model import model
+from Classes.adjacencyMatrix import AdjacencyMatrix
 from Classes.params import params
 import csv
 import os
@@ -52,13 +52,13 @@ def __fileSelectProcess(file_count:int, file_list:list):
 
 
 class Open():
-    def CSV(filename, graph:model):
+    def CSV(filename, graph:AdjacencyMatrix):
         with open(filename, "r") as csvfile:
                     reader = csv.reader(csvfile)
                     for row in reader:
                         graph.edges.append(row)
 
-    def TXT(filename, graph:model):
+    def TXT(filename, graph:AdjacencyMatrix):
         dirgraph = input("Is the graph directed? Y/N: ")
         with open(filename,  'r') as file:
             num = int(file.readline())

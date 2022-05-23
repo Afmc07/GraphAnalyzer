@@ -1,10 +1,10 @@
 import sys
-from Classes.model import model
+from Classes.adjacencyMatrix import AdjacencyMatrix
 from .visualizer import visualizers as vs
 
 alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 
-def dijkstra(graph:model, sourceIdx:int):
+def dijkstra(graph:AdjacencyMatrix, sourceIdx:int):
     vertex_amount = graph.getverts()
     distances = [sys.maxsize] * vertex_amount
     distances[sourceIdx] = 0
@@ -28,7 +28,7 @@ def dijkstra(graph:model, sourceIdx:int):
     __printResult(distances, sourceIdx, alph)
     vs.WeightedMapVisualizer(road_map, "dot", graph.weights, alph)            
 
-def __minDistance(dist:list, graph:model):
+def __minDistance(dist:list, graph:AdjacencyMatrix):
     min = sys.maxsize
     min_index = -1
 

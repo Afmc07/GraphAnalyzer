@@ -1,5 +1,5 @@
 from asyncio.windows_events import NULL
-from Classes.model import model
+from Classes.adjacencyMatrix import AdjacencyMatrix
 from Functions.dijkstra import dijkstra
 from Functions.hamilton import Dirac, Ore, Bondy
 from Functions.euler import euler
@@ -14,7 +14,7 @@ def clearConsole():
         command = 'cls'
     os.system(command)
 
-def Idx_Start_pick(graph:model, test:str):
+def Idx_Start_pick(graph:AdjacencyMatrix, test:str):
     vert_count = graph.getverts()
     while True:
             startIDX = int(input(f'Provide starting index for {test}: '))
@@ -33,7 +33,7 @@ def Dfs_process_Select():
     return process_select        
 
 
-def test(graph:model, testFileName:str, type:str):
+def test(graph:AdjacencyMatrix, testFileName:str, type:str):
     match type:
         case 'H':
             print("\n")        
@@ -69,7 +69,7 @@ def test(graph:model, testFileName:str, type:str):
 
 def TestHandler(fileType:str, name:int, testType:str):
     filename = f'./tests/{fileType}/{name}'
-    graph = model([])
+    graph = AdjacencyMatrix([])
     if fileType == 'csv':
          Open.CSV(filename, graph)
          graph.setupWeightsCSV()

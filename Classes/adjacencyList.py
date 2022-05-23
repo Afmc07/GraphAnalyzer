@@ -1,4 +1,4 @@
-from model import model
+from adjacencyMatrix import AdjacencyMatrix
 
 class AdjecencyList:
     def __init__(self, vertexCount:int) -> None:
@@ -8,6 +8,11 @@ class AdjecencyList:
     def addEdge(self, origin:int, destination:int, weight:int):
         self.graph.append([origin, destination, weight])
 
-    def matrixAdapter(self, matrix:model):
+    def getVerts(self):
+        return self.vertices    
+
+    def matrixAdapter(self, matrix:AdjacencyMatrix):
         for vert in range(matrix.getverts()):
-            print("WIP")    
+            adjList = matrix.getAdjacentVerts(vert);
+            for idx in adjList:
+                self.addEdge(vert, idx, matrix.weights[vert][idx])
