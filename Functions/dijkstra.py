@@ -1,3 +1,4 @@
+from cProfile import label
 import sys
 from Classes.adjacencyMatrix import AdjacencyMatrix
 from .visualizer import visualizers as vs
@@ -24,9 +25,8 @@ def dijkstra(graph:AdjacencyMatrix, sourceIdx:int):
                 distances[yIdx] = distances[x]+graph.weights[x][yIdx]
                 mapInsert(road_map, x, yIdx)
                 
-    alph = True if input("are the vertex labels letters? Y/N: ") == 'Y' else False
-    __printResult(distances, sourceIdx, alph)
-    vs.WeightedMapVisualizer(road_map, "dot", graph.weights, alph)            
+    __printResult(distances, sourceIdx, graph.labels)
+    vs.WeightedMapVisualizer(road_map, "dot", graph.weights, graph.labels)            
 
 def __minDistance(dist:list, graph:AdjacencyMatrix):
     min = sys.maxsize
@@ -48,7 +48,7 @@ def mapInsert(road:dict, parentIdx:int, addedIdx:int):
             break
     road[parentIdx].append(addedIdx)
 
-def __printResult(distance_list:list, startIdx:int, alph):
+def __printResult(distance_list:list, startIdx:int, labels:list):
     no_road = sys.maxsize
     no_road_vec = [i for i, x in enumerate(distance_list) if x == no_road]
 
@@ -61,8 +61,8 @@ def __printResult(distance_list:list, startIdx:int, alph):
         if index == startIdx:
             continue
         else:
-            if alph == 'Y':
-                print(f'From {alphabet[startIdx]} to {alphabet[index]}: {distance_list[index]}')
+            if len(labels) > 0:
+                print(f'From {labels[startIdx]} to {labels[index]}: {distance_list[index]}')
             else:
                 print(f'From {startIdx+1} to {index+1}: {distance_list[index]}')  
     print("\n---------------------------------\n")        

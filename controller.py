@@ -4,6 +4,8 @@ from Classes.params import params
 import csv
 import os
 
+test_message = "Select a Test type\n [H]Hamilton\n [E]Euler\n [B]BFS\n [D]DFS\n [K]Dijkstra\n [F]Bellman Ford:\n "
+
 def Setup():
     file_type = input("Please select a file input type: [csv]CSV [txt]TXT: ")
 
@@ -14,7 +16,7 @@ def Setup():
 
     file = __fileSelectProcess(file_count, dir_files)
 
-    test_type = input("Provide Test type [H]Hamilton, [E]Euler, [B]BFS, [D]DFS, [K]Dijkstra, [F]Bellman Ford: ")
+    test_type = input(test_message)
 
     return params(file_type, file, test_type, dir_files)
 
@@ -34,16 +36,16 @@ def RepeatSetup(past_params:params):
 
     newparams.fileName = __fileSelectProcess(len(newparams.fileList), newparams.fileList)
 
-    newparams.testId = input("Provide Test type [H]Hamilton, [E]Euler, [B]BFS, [D]DFS, [K]Dijkstra: ")
+    newparams.testId = input(test_message)
 
     return newparams
 
 def __fileSelectProcess(file_count:int, file_list:list):
-    message = "Select test file "
+    message = "Select test file\n"
 
     for idx in range(file_count):
-        message += f'[{idx}]{file_list[idx]}, '
-    message += f'[{file_count}]Test All: '
+        message += f'[{idx}]{file_list[idx]}\n'
+    message += f'[{file_count}]Test All:\n'
 
     file_choice = int(input(message))
     file = file_list[file_choice] if file_choice < file_count else "x"
@@ -65,13 +67,17 @@ class Open():
             graph.txtSetup(num)
             graph.setupWeightsTXT()
             for line in file:
-                command = list(map(int, line.split(' ')));
-                if dirgraph == 'N':
-                    graph.chngedg(command[0]-1, command[1]-1, '1')
-                    graph.setWeight(command[0]-1, command[1]-1, command[2])
+                formated_line = list(line.split(' '))
+                if len(formated_line) == 3:
+                    command = list(map(int, formated_line))
+                    if dirgraph == 'N':
+                        graph.chngedg(command[0]-1, command[1]-1, '1')
+                        graph.setWeight(command[0]-1, command[1]-1, command[2])
+                    else:
+                        graph.chngDirEdg(command[0]-1, command[1]-1, '1')
+                        graph.setDirWeight(command[0]-1, command[1]-1, command[2])
                 else:
-                    graph.chngDirEdg(command[0]-1, command[1]-1, '1')
-                    graph.setDirWeight(command[0]-1, command[1]-1, command[2])    
+                    graph.setLabels(formated_line)            
                 
 
 class Affirm():

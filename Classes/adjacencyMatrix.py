@@ -6,6 +6,7 @@ class AdjacencyMatrix:
         self.edges : array(array(str)) = edges
         self.weights = []
         self.visited = []
+        self.labels = []
 
     def txtSetup(self, verts:int):
         for idx in range(0, verts):
@@ -38,6 +39,9 @@ class AdjacencyMatrix:
 
     def setDirWeight(self, idx1:int, idx2:int, weight:int):
         self.weights[idx1][idx2] = weight
+
+    def setLabels(self, labels:list):
+        self.labels = labels    
 
     def getWeights(self):
         return self.weights
