@@ -38,13 +38,14 @@ class GraphVisualization:
             nx.draw_networkx(G, graphviz_layout(G, prog=type))
         else:
             nx.draw_networkx(G, pos)
-            if len(labels) > 0:
-                edge_labels = dict([((n1, n2), f'{weights[labels.index(n1)][labels.index(n2)]}')
-                    for n1, n2 in G.edges])
-            else:
-                edge_labels = dict([((n1, n2), f'{weights[n1-1][n2-1]}')
-                    for n1, n2 in G.edges])
-            nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+            
+        if len(labels) > 0:
+            edge_labels = dict([((n1, n2), f'{weights[labels.index(n1)][labels.index(n2)]}')
+                for n1, n2 in G.edges])
+        else:
+            edge_labels = dict([((n1, n2), f'{weights[n1-1][n2-1]}')
+                for n1, n2 in G.edges])
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
         plt.show()
 
 class visualizers:

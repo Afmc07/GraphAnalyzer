@@ -1,4 +1,6 @@
 import sys
+
+from numpy import source
 from Classes.adjacencyMatrix import AdjacencyMatrix
 from Classes.adjacencyList import AdjecencyList
 from .visualizer import visualizers as vs
@@ -16,15 +18,13 @@ def bellmanFord(matrix:AdjacencyMatrix, sourceIdx:int):
     road_map = {}
 
     neg_loop = False
-
     for _ in range(vertex_amount-1):
         for start, dest, weight in adjList.graph:
-            if start not in road_map.keys():
-                road_map[start]= []
-
+            if dest not in road_map.keys():
+                road_map[dest] = ''
             if distances[start] != sys.maxsize and distances[start] + weight < distances[dest]:
                 distances[dest] = distances[start] + weight
-                mapInsert(road_map, start, dest)
+                road_map[dest]= start
 
     for start, dest, weight in adjList.graph:
         if distances[start] != sys.maxsize and distances[start] + weight < distances[dest]:
@@ -32,27 +32,36 @@ def bellmanFord(matrix:AdjacencyMatrix, sourceIdx:int):
             break
 
     if not neg_loop:
-        print_result(sourceIdx, distances, adjList.labels)
-        vs.WeightedMapVisualizer(road_map, "dot", matrix.weights, matrix.labels)
+        print_distances(sourceIdx, distances, adjList.labels, road_map)
     else:
+        print("-------------------------------\n")
         print("This graph contains a negative weight cycle")
-
-def mapInsert(road:dict, parentIdx:int, addedIdx:int):
-    keys = road.keys()
-    for key in keys:
-        if key == parentIdx:
-            continue
-        elif addedIdx in road[key]:
-            road[key].remove(addedIdx)
-            break
-    road[parentIdx].append(addedIdx)          
+        print("\n-------------------------------\n")       
                            
-def print_result(startIdx:int, distances:list, labels:list):
+def print_distances(startIdx:int, distances:list, labels:list, path:dict):
     print("-------------------------------\n")
     if len(labels) != 0:
         for idx in range(len(distances)):
-            print(f'Distance from {labels[startIdx]} to {labels[idx]}: {distances[idx]}')
-    else:
-        for idx in len(distances):
-            print(f'Distance from {startIdx} to {idx}: {distances[idx]}')
-    print("\n-------------------------------\n")        
+            if distances[idx] != sys.maxsize:
+                message = f'Distance from {labels[startIdx]} to {labels[idx]}: {distances[idx]}'
+                if idx != startIdx:
+                    idxPath = generate_path(idx, path, labels)
+                    PrintAdapterStr(idxPath, message, '| Path: ', '-')
+                else:
+                    print(message)
+            else:
+                print(f'Distance from {labels[startIdx]} to {labels[idx]}: No Road Available')            
+    print("\n-------------------------------\n")
+
+def generate_path(target:int, path:dict, labels:list):
+    current = target
+    full_path = []
+    while current != '':
+        full_path.insert(0, labels[current])
+        current = path[current]
+    return full_path    
+
+def PrintAdapterStr(array:list, format:str, end, sep):
+    printable = [x for x in array]
+    print(format, end=end)
+    print(*printable, sep=sep)
