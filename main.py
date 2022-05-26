@@ -16,7 +16,15 @@ def clearConsole():
 
 def Idx_Start_pick(graph:AdjacencyMatrix, test:str):
     vert_count = graph.getverts()
-    while True:
+    if len(graph.labels) > 0:
+        while True:
+            startIDX = input(f'Provide starting vertice for {test}: ')
+            if startIDX not in graph.labels:
+                print(f'\nInvalid index, Available vertices: {graph.labels}\n')
+            else:
+                return graph.labels.index(startIDX)
+    else:     
+        while True:
             startIDX = int(input(f'Provide starting index for {test}: '))
             if startIDX > vert_count or startIDX < 1:
                 print(f'Invalid index, max index = {vert_count} | min index = 1')
