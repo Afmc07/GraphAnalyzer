@@ -1,7 +1,7 @@
-from Classes.model import model
+from Classes.adjacencyMatrix import AdjacencyMatrix
 from collections import Counter
 
-def Dirac(model:model):
+def Dirac(model:AdjacencyMatrix):
     n = model.getverts()
     if n > 3:
         res = n/2
@@ -14,7 +14,7 @@ def Dirac(model:model):
     else:
         return False
 
-def Ore(model:model):
+def Ore(model:AdjacencyMatrix):
     vert_count = model.getverts()
     degs = model.getdeg()
 
@@ -29,7 +29,7 @@ def Ore(model:model):
                 continue        
     return True 
 
-def Bondy(model:model):
+def Bondy(model:AdjacencyMatrix):
     n = model.getverts()
 
     while(True):

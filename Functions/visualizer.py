@@ -27,7 +27,7 @@ class GraphVisualization:
             nx.draw_networkx(G)
         plt.show()
 
-    def visualizeWeighted(self, type:str, labels:list, alph:bool):
+    def visualizeWeighted(self, type:str, weights:list, labels:list):
         ans =  input("Is Graphviz working? Y/N: ")
         G = nx.Graph() if ans == "N" else nx.DiGraph()
         G.add_edges_from(self.visual)
@@ -38,13 +38,14 @@ class GraphVisualization:
             nx.draw_networkx(G, graphviz_layout(G, prog=type))
         else:
             nx.draw_networkx(G, pos)
-            if alph:
-                edge_labels = dict([((n1, n2), f'{labels[alphabet.index(n1)][alphabet.index(n2)]}')
-                    for n1, n2 in G.edges])
-            else:
-                edge_labels = dict([((n1, n2), f'{labels[n1-1][n2-1]}')
-                    for n1, n2 in G.edges])
-            nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+            
+        if len(labels) > 0:
+            edge_labels = dict([((n1, n2), f'{weights[labels.index(n1)][labels.index(n2)]}')
+                for n1, n2 in G.edges])
+        else:
+            edge_labels = dict([((n1, n2), f'{weights[n1-1][n2-1]}')
+                for n1, n2 in G.edges])
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
         plt.show()
 
 class visualizers:
@@ -62,15 +63,15 @@ class visualizers:
 
         visual.visualize(type)  
 
-    def WeightedMapVisualizer(connections:dict, type:str, labels, alph):
+    def WeightedMapVisualizer(connections:dict, type:str, weights, labels):
         visual = GraphVisualization()
         keys = connections.keys()
         
         for key in keys:
             for item in connections[key]:
-                if alph:
-                    visual.addEdge(alphabet[key], alphabet[item])
+                if len(labels) > 0:
+                    visual.addEdge(labels[key], labels[item])
                 else:
                     visual.addEdge(key+1, item+1)
 
-        visual.visualizeWeighted(type, labels, alph)  
+        visual.visualizeWeighted(type, weights, labels)  

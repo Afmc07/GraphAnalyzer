@@ -1,9 +1,10 @@
 from asyncio.windows_events import NULL
-from Classes.model import model
+from Classes.adjacencyMatrix import AdjacencyMatrix
 from Functions.dijkstra import dijkstra
 from Functions.hamilton import Dirac, Ore, Bondy
 from Functions.euler import euler
 from Functions.search import BFS, DFS
+from Functions.bellmanFord import bellmanFord
 from controller import Open, Affirm, Setup, RepeatSetup
 import os
 
@@ -13,9 +14,17 @@ def clearConsole():
         command = 'cls'
     os.system(command)
 
-def Idx_Start_pick(graph:model, test:str):
+def Idx_Start_pick(graph:AdjacencyMatrix, test:str):
     vert_count = graph.getverts()
-    while True:
+    if len(graph.labels) > 0:
+        while True:
+            startIDX = input(f'Provide starting vertice for {test}: ')
+            if startIDX not in graph.labels:
+                print(f'\nInvalid index, Available vertices: {graph.labels}\n')
+            else:
+                return graph.labels.index(startIDX)
+    else:     
+        while True:
             startIDX = int(input(f'Provide starting index for {test}: '))
             if startIDX > vert_count or startIDX < 1:
                 print(f'Invalid index, max index = {vert_count} | min index = 1')
@@ -32,7 +41,7 @@ def Dfs_process_Select():
     return process_select        
 
 
-def test(graph:model, testFileName:str, type:str):
+def test(graph:AdjacencyMatrix, testFileName:str, type:str):
     match type:
         case 'H':
             print("\n")        
@@ -60,11 +69,15 @@ def test(graph:model, testFileName:str, type:str):
         case 'K':
             startIDX = Idx_Start_pick(graph,"Dijkstra")
             print("\nDijkstra test Results "+str(testFileName))
-            dijkstra(graph, startIDX)        
+            dijkstra(graph, startIDX)
+        case 'F':
+            startIDX = Idx_Start_pick(graph,"Bellman Ford")
+            print("\nBellman Ford test Results "+str(testFileName))
+            bellmanFord(graph, startIDX)              
 
 def TestHandler(fileType:str, name:int, testType:str):
     filename = f'./tests/{fileType}/{name}'
-    graph = model([])
+    graph = AdjacencyMatrix([])
     if fileType == 'csv':
          Open.CSV(filename, graph)
          graph.setupWeightsCSV()

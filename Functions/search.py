@@ -1,8 +1,8 @@
-from Classes.model import model
+from Classes.adjacencyMatrix import AdjacencyMatrix
 from .visualizer import visualizers as vs
 import copy
 
-def BFS(graph:model, idx:int):
+def BFS(graph:AdjacencyMatrix, idx:int):
     queue = []
     queue.append(idx)
     distance_count = 0
@@ -38,7 +38,7 @@ def BFS(graph:model, idx:int):
     __roadPrinter(idx, graph, distance_map)
     __treePrinter(idx, distance_map, graph)
 
-def DFS(graph:model, idx:int, process_select:str):
+def DFS(graph:AdjacencyMatrix, idx:int, process_select:str):
     connection_map = {}
     if process_select == 'R':
         __DFS_Recursive(graph, idx, connection_map)
@@ -47,7 +47,7 @@ def DFS(graph:model, idx:int, process_select:str):
     print("Showing Depth Tree")  
     vs.MapVisualizer(connection_map, "dot")    
 
-def __DFS_Recursive(graph:model, idx:int, connections:dict):
+def __DFS_Recursive(graph:AdjacencyMatrix, idx:int, connections:dict):
     graph.setVisited(idx)
 
     adj_idxs = graph.getAdjacentVerts(idx)
@@ -58,7 +58,7 @@ def __DFS_Recursive(graph:model, idx:int, connections:dict):
             connections[idx].append(item)
             __DFS_Recursive(graph, item, connections)
 
-def __DFS_Stack(graph:model, idx:int, connections:dict):
+def __DFS_Stack(graph:AdjacencyMatrix, idx:int, connections:dict):
     stack = [idx]
 
     while stack:
@@ -73,7 +73,7 @@ def __DFS_Stack(graph:model, idx:int, connections:dict):
                 connections_mapUpdater(index, current_idx, connections, graph)
 
 
-def connections_mapUpdater(adj_index:int, cur_index:int, connections:dict, graph:model):
+def connections_mapUpdater(adj_index:int, cur_index:int, connections:dict, graph:AdjacencyMatrix):
     if not graph.visited[adj_index]:
         keys = connections.keys()
         for key in keys:
@@ -96,7 +96,7 @@ def __distancePrinter(start:int, dists:dict):
         PrintAdapter(distDict[key], f'Distance of {str(key)}:', ' ', ', ')
     print("\n------------------------------\n")    
 
-def __roadPrinter(start:int, graph:model, dists:dict):
+def __roadPrinter(start:int, graph:AdjacencyMatrix, dists:dict):
     print("------------------------------\n")
     print("Roads:\n")
     for dest in range(0, graph.getverts()):
@@ -126,7 +126,7 @@ def __roadPrinter(start:int, graph:model, dists:dict):
                 PrintAdapter(road, f'Road({start+1} to {dest+1}):', ' ', ' - ')
     print("\n------------------------------\n")                  
 
-def __treePrinter(idx:int, dists:dict, graph:model):
+def __treePrinter(idx:int, dists:dict, graph:AdjacencyMatrix):
     print("------------------------------\n")
     print("Tree:")
     graph.resetVisits()
