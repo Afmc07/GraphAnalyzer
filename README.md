@@ -1,6 +1,7 @@
 # GraphAnalyzer
 Library dedicated to analyzing Graph data structures. Able to identify if they are Eulerean and/or Hamiltonian. Also performs Depth and Breadth searches.
 - Currently receives csv and txt files as input.
+- Early Support for Directed Graphs
 - More features and functions to come
 
 ## input examples
