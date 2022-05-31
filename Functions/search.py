@@ -1,5 +1,5 @@
 from Classes.adjacencyMatrix import AdjacencyMatrix
-from .visualizer import visualizers as vs
+from ..utils.visualizer import visualizers as vs
 import copy
 
 def BFS(graph:AdjacencyMatrix, idx:int):

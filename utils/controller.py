@@ -4,7 +4,7 @@ from Classes.params import params
 import csv
 import os
 
-test_message = "Select a Test type\n [H]Hamilton\n [E]Euler\n [B]BFS\n [D]DFS\n [K]Dijkstra\n [F]Bellman Ford:\n "
+test_message = "Select a Test type\n [H]Hamilton\n [E]Euler\n [B]BFS\n [D]DFS\n [K]Dijkstra\n [F]Bellman Ford\n  [W]Floyd Warshall:\n "
 
 def Setup():
     file_type = input("Please select a file input type: [csv]CSV [txt]TXT: ")

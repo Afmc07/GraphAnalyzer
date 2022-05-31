@@ -5,7 +5,7 @@ from Functions.hamilton import Dirac, Ore, Bondy
 from Functions.euler import euler
 from Functions.search import BFS, DFS
 from Functions.bellmanFord import bellmanFord
-from controller import Open, Affirm, Setup, RepeatSetup
+from utils.controller import Open, Affirm, Setup, RepeatSetup
 import os
 
 def clearConsole():
