@@ -41,7 +41,7 @@ def __prinroad(AdjacencyMatrix:AdjacencyMatrix, semi:bool):
     while '1' in line:
         for i in range(0, n):
             if line[i] == '1' and (dgs[pstln] == 1 or  __not_bridge(AdjacencyMatrix, i, pstln)) or line[i] == '1' and len(res) == edgs:
-                AdjacencyMatrix.chngedg(i, pstln, '')
+                AdjacencyMatrix.chngEdg(i, pstln, '')
                 line = AdjacencyMatrix.getLine(i)
                 pstln = i
                 dgs = AdjacencyMatrix.getdeg()
@@ -60,7 +60,7 @@ def __not_bridge(AdjacencyMatrix:AdjacencyMatrix, idxV1:int, idxV2:int):
     AdjacencyMatrixCopy = copy.deepcopy(AdjacencyMatrix)
 
     origStateCount = __dfs_access_count(AdjacencyMatrixCopy, idxV2)
-    AdjacencyMatrixCopy.chngedg(idxV1, idxV2, '')
+    AdjacencyMatrixCopy.chngEdg(idxV1, idxV2, '')
     AdjacencyMatrixCopy.resetVisits()
     changedStateCount = __dfs_access_count(AdjacencyMatrixCopy, idxV1)
     return origStateCount == changedStateCount     

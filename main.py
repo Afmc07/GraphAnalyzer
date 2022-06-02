@@ -9,13 +9,15 @@ from Functions.bellmanFord import bellmanFord
 from utils.controller import Open, Affirm, Setup, RepeatSetup
 import os
 
+
 def clearConsole():
     command = 'clear'
-    if os.name in ('nt', 'dos'): 
+    if os.name in ('nt', 'dos'):
         command = 'cls'
     os.system(command)
 
-def Idx_Start_pick(graph:AdjacencyMatrix, test:str):
+
+def Idx_Start_pick(graph: AdjacencyMatrix, test: str):
     vert_count = graph.getverts()
     if len(graph.labels) > 0:
         while True:
@@ -24,13 +26,14 @@ def Idx_Start_pick(graph:AdjacencyMatrix, test:str):
                 print(f'\nInvalid index, Available vertices: {graph.labels}\n')
             else:
                 return graph.labels.index(startIDX)
-    else:     
+    else:
         while True:
             startIDX = int(input(f'Provide starting index for {test}: '))
             if startIDX > vert_count or startIDX < 1:
                 print(f'Invalid index, max index = {vert_count} | min index = 1')
             else:
-                return startIDX-1
+                return startIDX - 1
+
 
 def Dfs_process_Select():
     while True:
@@ -38,64 +41,65 @@ def Dfs_process_Select():
         if process_select == 'R' or process_select == 'S':
             break
         else:
-            print("Invalid input, please provide a valid choice.")  
-    return process_select        
+            print("Invalid input, please provide a valid choice.")
+    return process_select
 
 
-def test(graph:AdjacencyMatrix, testFileName:str, type:str):
+def test(graph: AdjacencyMatrix, testFileName: str, type: str):
     match type:
         case 'H':
-            print("\n")        
-            print("Hamilton Test Results File "+str(testFileName))        
-            print("------------------------------")        
-            print("Dirac: "+Affirm.Ham(Dirac(graph)))
-            print("Ore: "+Affirm.Ham(Ore(graph)))
-            print("Bondy & Chvatal: "+Affirm.Ham(Bondy(graph)))
+            print("\n")
+            print("Hamilton Test Results File " + str(testFileName))
+            print("------------------------------")
+            print("Dirac: " + Affirm.Ham(Dirac(graph)))
+            print("Ore: " + Affirm.Ham(Ore(graph)))
+            print("Bondy & Chvatal: " + Affirm.Ham(Bondy(graph)))
             print("------------------------------\n")
         case 'E':
             print("\n")
-            print("Euler Test Results File "+str(testFileName))        
+            print("Euler Test Results File " + str(testFileName))
             print("------------------------------")
-            print("Result: "+Affirm.Eul(euler(graph))) 
-            print("------------------------------\n") 
+            print("Result: " + Affirm.Eul(euler(graph)))
+            print("------------------------------\n")
         case 'B':
             startIDX = Idx_Start_pick(graph, "BFS")
-            print("\nBFS test Results "+str(testFileName))
+            print("\nBFS test Results " + str(testFileName))
             BFS(graph, startIDX)
         case 'D':
-            startIDX = Idx_Start_pick(graph,"DFS")
+            startIDX = Idx_Start_pick(graph, "DFS")
             process_select = Dfs_process_Select()
-            print("\nDFS test Results "+str(testFileName))
+            print("\nDFS test Results " + str(testFileName))
             DFS(graph, startIDX, process_select)
         case 'K':
-            startIDX = Idx_Start_pick(graph,"Dijkstra")
-            print("\nDijkstra test Results "+str(testFileName))
+            startIDX = Idx_Start_pick(graph, "Dijkstra")
+            print("\nDijkstra test Results " + str(testFileName))
             dijkstra(graph, startIDX)
         case 'F':
-            startIDX = Idx_Start_pick(graph,"Bellman Ford")
-            print("\nBellman Ford test Results "+str(testFileName))
+            startIDX = Idx_Start_pick(graph, "Bellman Ford")
+            print("\nBellman Ford test Results " + str(testFileName))
             bellmanFord(graph, startIDX)
         case 'W':
-            print("\nFloyd Warshall test Results "+str(testFileName))
-            FloydWarshall(graph.weights, graph.getverts(), graph.labels)                  
+            print("\nFloyd Warshall test Results " + str(testFileName))
+            FloydWarshall(graph.weights, graph.getverts(), graph.labels)
 
-def TestHandler(fileType:str, name:int, testType:str):
+
+def TestHandler(fileType: str, name: str, testType: str):
     filename = f'./tests/{fileType}/{name}'
     graph = AdjacencyMatrix([])
     if fileType == 'csv':
-         Open.CSV(filename, graph)
-         graph.setupWeightsCSV()
-         graph.setVisitedArray()
-         test(graph, name, testType)
-    elif fileType == 'txt':  
+        Open.CSV(filename, graph)
+        graph.setupWeightsCSV()
+        graph.setVisitedArray()
+        test(graph, name, testType)
+    elif fileType == 'txt':
         Open.TXT(filename, graph)
         graph.setVisitedArray()
         test(graph, name, testType)
     else:
         Open.special(filename, graph)
-        test(graph, name, testType) 
+        test(graph, name, testType)
 
-   
+
 print(" ------------------------------------ ")
 print("|                                    |")
 print("| Welcome to Graph Datatype Tester!", end="  |\n")
@@ -109,7 +113,7 @@ while True:
     if params.fileName in params.fileList:
         TestHandler(params.fileType, params.fileName, params.testId)
     else:
-        for x in range(0,len(params.fileList)):
+        for x in range(0, len(params.fileList)):
             TestHandler(params.fileType, params.fileList[x], params.testId)
 
     resp = input("Do you wish to continue? Y/N\n")

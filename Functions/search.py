@@ -2,7 +2,8 @@ from Classes.adjacencyMatrix import AdjacencyMatrix
 from utils.visualizer import visualizers as vs
 import copy
 
-def BFS(graph:AdjacencyMatrix, idx:int):
+
+def BFS(graph: AdjacencyMatrix, idx: int):
     queue = []
     queue.append(idx)
     distance_count = 0
@@ -21,7 +22,7 @@ def BFS(graph:AdjacencyMatrix, idx:int):
         if distance_count != len(queue) and distance_count == 0:
             distance_count += 1
             aux = copy.deepcopy(queue)
-            distance_map[distance_count] = aux 
+            distance_map[distance_count] = aux
 
         elif distance_count > 0 and len(queue) > 0:
             presenceFlag = False
@@ -38,16 +39,18 @@ def BFS(graph:AdjacencyMatrix, idx:int):
     __roadPrinter(idx, graph, distance_map)
     __treePrinter(idx, distance_map, graph)
 
-def DFS(graph:AdjacencyMatrix, idx:int, process_select:str):
+
+def DFS(graph: AdjacencyMatrix, idx: int, process_select: str):
     connection_map = {}
     if process_select == 'R':
         __DFS_Recursive(graph, idx, connection_map)
     elif process_select == 'S':
         __DFS_Stack(graph, idx, connection_map)
-    print("Showing Depth Tree")  
-    vs.MapVisualizer(connection_map, "dot")    
+    print("Showing Depth Tree")
+    vs.MapVisualizer(connection_map, "dot")
 
-def __DFS_Recursive(graph:AdjacencyMatrix, idx:int, connections:dict):
+
+def __DFS_Recursive(graph: AdjacencyMatrix, idx: int, connections: dict):
     graph.setVisited(idx)
 
     adj_idxs = graph.getAdjacentVerts(idx)
@@ -58,7 +61,8 @@ def __DFS_Recursive(graph:AdjacencyMatrix, idx:int, connections:dict):
             connections[idx].append(item)
             __DFS_Recursive(graph, item, connections)
 
-def __DFS_Stack(graph:AdjacencyMatrix, idx:int, connections:dict):
+
+def __DFS_Stack(graph: AdjacencyMatrix, idx: int, connections: dict):
     stack = [idx]
 
     while stack:
@@ -73,7 +77,7 @@ def __DFS_Stack(graph:AdjacencyMatrix, idx:int, connections:dict):
                 connections_mapUpdater(index, current_idx, connections, graph)
 
 
-def connections_mapUpdater(adj_index:int, cur_index:int, connections:dict, graph:AdjacencyMatrix):
+def connections_mapUpdater(adj_index: int, cur_index: int, connections: dict, graph: AdjacencyMatrix):
     if not graph.visited[adj_index]:
         keys = connections.keys()
         for key in keys:
@@ -82,21 +86,23 @@ def connections_mapUpdater(adj_index:int, cur_index:int, connections:dict, graph
             elif adj_index in connections[key]:
                 connections[key].remove(adj_index)
                 break
-        connections[cur_index].append(adj_index)   
+        connections[cur_index].append(adj_index)
 
-def __distancePrinter(start:int, dists:dict):
+
+def __distancePrinter(start: int, dists: dict):
     print("------------------------------\n")
     print("Distances:\n")
 
-    print("start: "+str(start+1))
+    print("start: " + str(start + 1))
     distDict = copy.deepcopy(dists)
     keys = distDict.keys()
 
     for key in keys:
         PrintAdapter(distDict[key], f'Distance of {str(key)}:', ' ', ', ')
-    print("\n------------------------------\n")    
+    print("\n------------------------------\n")
 
-def __roadPrinter(start:int, graph:AdjacencyMatrix, dists:dict):
+
+def __roadPrinter(start: int, graph: AdjacencyMatrix, dists: dict):
     print("------------------------------\n")
     print("Roads:\n")
     for dest in range(0, graph.getverts()):
@@ -105,7 +111,7 @@ def __roadPrinter(start:int, graph:AdjacencyMatrix, dists:dict):
             continue
         else:
             if dest in distDict[1]:
-                print(f'Road({start+1} to {dest+1}): {start+1} - {dest+1}')
+                print(f'Road({start + 1} to {dest + 1}): {start + 1} - {dest + 1}')
             else:
                 end = dest
                 road = [end]
@@ -116,17 +122,18 @@ def __roadPrinter(start:int, graph:AdjacencyMatrix, dists:dict):
                     else:
                         distTrav += 1
                 while distTrav > 1:
-                    for vert in distDict[distTrav-1]:
+                    for vert in distDict[distTrav - 1]:
                         if graph.edges[vert][end] == '1':
                             road.insert(0, vert)
                             end = vert
                             distTrav -= 1
                             break
                 road.insert(0, start)
-                PrintAdapter(road, f'Road({start+1} to {dest+1}):', ' ', ' - ')
-    print("\n------------------------------\n")                  
+                PrintAdapter(road, f'Road({start + 1} to {dest + 1}):', ' ', ' - ')
+    print("\n------------------------------\n")
 
-def __treePrinter(idx:int, dists:dict, graph:AdjacencyMatrix):
+
+def __treePrinter(idx: int, dists: dict, graph: AdjacencyMatrix):
     print("------------------------------\n")
     print("Tree:")
     graph.resetVisits()
@@ -146,14 +153,14 @@ def __treePrinter(idx:int, dists:dict, graph:AdjacencyMatrix):
                     if adj_idx != idx and adj_idx not in distDict[key] and not graph.visited[adj_idx]:
                         connection_map[parent_index].append(adj_idx)
                 else:
-                    if adj_idx not in distDict[key-1] and adj_idx not in distDict[key] and not graph.visited[adj_idx]:
-                        connection_map[parent_index].append(adj_idx)       
+                    if adj_idx not in distDict[key - 1] and adj_idx not in distDict[key] and not graph.visited[adj_idx]:
+                        connection_map[parent_index].append(adj_idx)
 
     vs.MapVisualizer(connection_map, "dot")
-    print("\n------------------------------\n")              
+    print("\n------------------------------\n")
 
-def PrintAdapter(array:list, format:str, end, sep):
-    printable = [x+1 for x in array]
+
+def PrintAdapter(array: list, format: str, end, sep):
+    printable = [x + 1 for x in array]
     print(format, end=end)
-    print(*printable, sep=sep) 
-    
+    print(*printable, sep=sep)

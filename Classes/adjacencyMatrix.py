@@ -1,14 +1,15 @@
 from array import array
 from collections import Counter
 
+
 class AdjacencyMatrix:
     def __init__(self, edges):
-        self.edges : array(array(str)) = edges
+        self.edges = []
         self.weights = []
         self.visited = []
         self.labels = []
 
-    def txtSetup(self, verts:int):
+    def txtSetup(self, verts: int):
         for idx in range(0, verts):
             self.edges.append([])
             for i in range(0, verts):
@@ -25,7 +26,7 @@ class AdjacencyMatrix:
                     self.edges[x][y] = aux[0]
                     waux.append(int(aux[1]))
                 else:
-                    waux.append(0)    
+                    waux.append(0)
             self.weights.append(waux)
 
     def setupWeightsTXT(self):
@@ -33,19 +34,19 @@ class AdjacencyMatrix:
             waux = [0] * len(self.edges)
             self.weights.append(waux)
 
-    def setWeight(self, idx1:int, idx2:int, weight:int):
+    def setWeight(self, idx1: int, idx2: int, weight: int):
         self.weights[idx1][idx2] = weight
         self.weights[idx2][idx1] = weight
 
-    def setDirWeight(self, idx1:int, idx2:int, weight:int):
+    def setDirWeight(self, idx1: int, idx2: int, weight: int):
         self.weights[idx1][idx2] = weight
 
-    def setLabels(self, labels:list):
-        self.labels = labels    
+    def setLabels(self, labels: list):
+        self.labels = [x.strip() for x in labels]
 
     def getWeights(self):
         return self.weights
-        
+
     def getverts(self):
         return len(self.edges)
 
@@ -56,38 +57,38 @@ class AdjacencyMatrix:
             degList.append(aux.get('1'))
         return degList
 
-    def setLine(self, x:int, l:array):
-        self.edges[x]= l    
+    def setLine(self, x: int, l: array):
+        self.edges[x] = l
 
-    def getLine(self, x:int) -> array:
+    def getLine(self, x: int) -> array:
         return self.edges[x]
 
-    def chngedg(self, line:int, edg:int, val:str):
+    def chngEdg(self, line: int, edg: int, val: str):
         self.edges[line][edg] = val
         self.edges[edg][line] = val
 
-    def chngDirEdg(self, line:int, edg:int, val:str):
+    def chngDirEdg(self, line: int, edg: int, val: str):
         self.edges[line][edg] = val
 
     def getedg(self):
-        cnt = 0;
+        cnt = 0
         for i in range(0, self.getverts()):
             line = self.getLine(i)
             for j in range(i, len(line)):
                 if line[j] == '1':
                     cnt += 1
-        return cnt            
+        return cnt
 
     def setVisitedArray(self):
         for i in range(0, len(self.edges)):
             self.visited.append(False)
 
-    def setVisited(self, idx:int):
-        self.visited[idx] = True    
+    def setVisited(self, idx: int):
+        self.visited[idx] = True
 
     def resetVisits(self):
         for idx in range(0, len(self.visited)):
-            self.visited[idx] = False    
+            self.visited[idx] = False
 
-    def getAdjacentVerts(self, parentIdx:int) -> list:
-        return [i for i, x in enumerate(self.edges[parentIdx]) if x == '1']        
+    def getAdjacentVerts(self, parentIdx: int) -> list:
+        return [i for i, x in enumerate(self.edges[parentIdx]) if x == '1']

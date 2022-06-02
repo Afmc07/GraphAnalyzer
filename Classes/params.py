@@ -1,6 +1,6 @@
-class params():
-    def __init__(self, file, id, test, list):
-        self.fileType = file
-        self.fileName = id
+class params:
+    def __init__(self, filetype, name, test, filelist):
+        self.fileType = filetype
+        self.fileName = name
         self.testId = test
-        self.fileList = list
+        self.fileList = filelist

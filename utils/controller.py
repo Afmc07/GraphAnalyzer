@@ -6,6 +6,7 @@ import os
 
 test_message = "Select a Test type\n [H]Hamilton\n [E]Euler\n [B]BFS\n [D]DFS\n [K]Dijkstra\n [F]Bellman Ford\n [W]Floyd Warshall:\n "
 
+
 def Setup():
     file_type = input("Please select a file input type: [csv]CSV [txt]TXT [special]special: ")
 
@@ -20,19 +21,21 @@ def Setup():
 
     return params(file_type, file, test_type, dir_files)
 
-def RepeatSetup(past_params:params):
-    newparams:params = copy.deepcopy(past_params)
+
+def RepeatSetup(past_params: params):
+    newparams: params = copy.deepcopy(past_params)
     change_response = input(f'Do you want to change your current file type?({past_params.fileType}) Y/N: ')
 
     if change_response == 'Y':
         if past_params.fileType == 'txt':
-           newparams.fileType = 'csv'
+            newparams.fileType = 'csv'
         else:
-            newparams.fileType = 'txt' 
+            newparams.fileType = 'txt'
         print(f'File type changed to {newparams.fileType}')
 
         choice_dir_path = os.path.join(os.path.abspath(os.getcwd()), f'tests\\{newparams.fileType}')
-        newparams.fileList = [name for name in os.listdir(choice_dir_path) if os.path.isfile(os.path.join(choice_dir_path, name))]
+        newparams.fileList = [name for name in os.listdir(choice_dir_path) if
+                              os.path.isfile(os.path.join(choice_dir_path, name))]
 
     newparams.fileName = __fileSelectProcess(len(newparams.fileList), newparams.fileList)
 
@@ -40,7 +43,8 @@ def RepeatSetup(past_params:params):
 
     return newparams
 
-def __fileSelectProcess(file_count:int, file_list:list):
+
+def __fileSelectProcess(file_count: int, file_list: list):
     message = "Select test file\n"
 
     for idx in range(file_count):
@@ -49,24 +53,24 @@ def __fileSelectProcess(file_count:int, file_list:list):
 
     file_choice = int(input(message))
     file = file_list[file_choice] if file_choice < file_count else "x"
-    
+
     return file
 
 
-class Open():
-    def CSV(filename, graph:AdjacencyMatrix):
+class Open:
+    def CSV(filename: str, graph: AdjacencyMatrix):
         with open(filename, "r") as csvfile:
-                    reader = csv.reader(csvfile)
-                    counter = 1
-                    for row in reader:
-                        if counter == 1:
-                            graph.setLabels(row)
-                        else:    
-                            graph.edges.append(row)
+            reader = csv.reader(csvfile)
+            counter = 1
+            for row in reader:
+                if counter == 1:
+                    graph.setLabels(row)
+                else:
+                    graph.edges.append(row)
 
-    def TXT(filename, graph:AdjacencyMatrix):
+    def TXT(filename: str, graph: AdjacencyMatrix):
         dirgraph = input("Is the graph directed? Y/N: ")
-        with open(filename,  'r') as file:
+        with open(filename, 'r') as file:
             num = int(file.readline())
             graph.txtSetup(num)
             graph.setupWeightsTXT()
@@ -75,25 +79,25 @@ class Open():
                 if len(formated_line) == 3:
                     command = list(map(int, formated_line))
                     if dirgraph == 'N':
-                        graph.chngedg(command[0]-1, command[1]-1, '1')
-                        graph.setWeight(command[0]-1, command[1]-1, command[2])
+                        graph.chngEdg(command[0] - 1, command[1] - 1, '1')
+                        graph.setWeight(command[0] - 1, command[1] - 1, command[2])
                     else:
-                        graph.chngDirEdg(command[0]-1, command[1]-1, '1')
-                        graph.setDirWeight(command[0]-1, command[1]-1, command[2])
+                        graph.chngDirEdg(command[0] - 1, command[1] - 1, '1')
+                        graph.setDirWeight(command[0] - 1, command[1] - 1, command[2])
                 else:
-                    graph.setLabels(formated_line) 
-    def special(filename, graph:AdjacencyMatrix):
-        with open(filename,  'r') as file:
+                    graph.setLabels(formated_line)
+
+    def special(filename: str, graph: AdjacencyMatrix):
+        with open(filename, 'r') as file:
             labels = file.readline().split(' ')
             graph.setLabels(labels)
             for line in file:
                 initial = list(line.split(' '))
-                formated_edges = ['' if x == 'I' or x == 'I\n' else '1' for x in initial]
-                formated_weights = [0 if x == 'I' or x == 'I\n' else int(x) for x in initial]  
-                graph.edges.append(formated_edges)
-                graph.weights.append(formated_weights)
+                formatted_edges = ['' if x == 'I' or x == 'I\n' else '1' for x in initial]
+                formatted_weights = [0 if x == 'I' or x == 'I\n' else int(x) for x in initial]
+                graph.edges.append(formatted_edges)
+                graph.weights.append(formatted_weights)
 
-                
 
 class Affirm():
     def Ham(a):
@@ -102,6 +106,7 @@ class Affirm():
                 return "Hamiltonian"
             case False:
                 return "Unable to make affirmation"
+
     def Eul(a):
         match a:
             case 1:
