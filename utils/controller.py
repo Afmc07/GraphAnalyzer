@@ -4,10 +4,10 @@ from Classes.params import params
 import csv
 import os
 
-test_message = "Select a Test type\n [H]Hamilton\n [E]Euler\n [B]BFS\n [D]DFS\n [K]Dijkstra\n [F]Bellman Ford\n  [W]Floyd Warshall:\n "
+test_message = "Select a Test type\n [H]Hamilton\n [E]Euler\n [B]BFS\n [D]DFS\n [K]Dijkstra\n [F]Bellman Ford\n [W]Floyd Warshall:\n "
 
 def Setup():
-    file_type = input("Please select a file input type: [csv]CSV [txt]TXT: ")
+    file_type = input("Please select a file input type: [csv]CSV [txt]TXT [special]special: ")
 
     choice_dir_path = os.path.join(os.path.abspath(os.getcwd()), f'tests\\{file_type}')
 
@@ -57,8 +57,12 @@ class Open():
     def CSV(filename, graph:AdjacencyMatrix):
         with open(filename, "r") as csvfile:
                     reader = csv.reader(csvfile)
+                    counter = 1
                     for row in reader:
-                        graph.edges.append(row)
+                        if counter == 1:
+                            graph.setLabels(row)
+                        else:    
+                            graph.edges.append(row)
 
     def TXT(filename, graph:AdjacencyMatrix):
         dirgraph = input("Is the graph directed? Y/N: ")
@@ -77,7 +81,18 @@ class Open():
                         graph.chngDirEdg(command[0]-1, command[1]-1, '1')
                         graph.setDirWeight(command[0]-1, command[1]-1, command[2])
                 else:
-                    graph.setLabels(formated_line)            
+                    graph.setLabels(formated_line) 
+    def special(filename, graph:AdjacencyMatrix):
+        with open(filename,  'r') as file:
+            labels = file.readline().split(' ')
+            graph.setLabels(labels)
+            for line in file:
+                initial = list(line.split(' '))
+                formated_edges = ['' if x == 'I' or x == 'I\n' else '1' for x in initial]
+                formated_weights = [0 if x == 'I' or x == 'I\n' else int(x) for x in initial]  
+                graph.edges.append(formated_edges)
+                graph.weights.append(formated_weights)
+
                 
 
 class Affirm():

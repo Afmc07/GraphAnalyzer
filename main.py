@@ -1,6 +1,7 @@
 from asyncio.windows_events import NULL
 from Classes.adjacencyMatrix import AdjacencyMatrix
 from Functions.dijkstra import dijkstra
+from Functions.floydWarshall import FloydWarshall
 from Functions.hamilton import Dirac, Ore, Bondy
 from Functions.euler import euler
 from Functions.search import BFS, DFS
@@ -73,7 +74,10 @@ def test(graph:AdjacencyMatrix, testFileName:str, type:str):
         case 'F':
             startIDX = Idx_Start_pick(graph,"Bellman Ford")
             print("\nBellman Ford test Results "+str(testFileName))
-            bellmanFord(graph, startIDX)              
+            bellmanFord(graph, startIDX)
+        case 'W':
+            print("\nFloyd Warshall test Results "+str(testFileName))
+            FloydWarshall(graph.weights, graph.getverts(), graph.labels)                  
 
 def TestHandler(fileType:str, name:int, testType:str):
     filename = f'./tests/{fileType}/{name}'
@@ -83,10 +87,13 @@ def TestHandler(fileType:str, name:int, testType:str):
          graph.setupWeightsCSV()
          graph.setVisitedArray()
          test(graph, name, testType)
-    else:  
+    elif fileType == 'txt':  
         Open.TXT(filename, graph)
         graph.setVisitedArray()
         test(graph, name, testType)
+    else:
+        Open.special(filename, graph)
+        test(graph, name, testType) 
 
    
 print(" ------------------------------------ ")
